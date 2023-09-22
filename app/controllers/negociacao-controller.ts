@@ -22,7 +22,11 @@ export class NegociacaoController{
     }
 
     public adiciona(): void{
-        const negociacao = this.criaNegociacao();
+        const negociacao = Negociacao.criaDe(
+            this.inputData.value,
+            this.inputQuantidade.value,
+            this.inputValor.value
+        );
         if(!this.ehDiaUtil(negociacao.data)){
            this.mensagemView.update("Necesário colocar uma data válida, dia util.");
            return ;
@@ -30,14 +34,6 @@ export class NegociacaoController{
         this.negociacoes.adiciona(negociacao);
         this.limparFormulário();
         this.atualizaView();
-    }
-
-    private criaNegociacao(): Negociacao{
-        const exp = /-/g;
-        const date = new Date(this.inputData.value.replace(exp, ','));
-        const quantidade = parseInt(this.inputQuantidade.value)
-        const valor = parseFloat(this.inputValor.value)
-        return new Negociacao(date,quantidade,valor);
     }
 
     private limparFormulário(): void{
